@@ -1,4 +1,5 @@
-# DCI interconnect over OSPF underlay (generic network core) for a rack-2-rack VxLAN EVPN 
+# EVPN DCI interconnect over OSPF underlay </br>
+Generic network core for a rack-2-rack VxLAN EVPN 
 
 Tha main point of this space is not the Ansible script, rather the Network configuration and possible replication of it.
 
