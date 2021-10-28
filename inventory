@@ -1,0 +1,14 @@
+[switches]
+#list of device under test
+dc1leaf1 ansible_host=10.204.11.68 ansible_network_os=dellos10
+dc1leaf2 ansible_host=10.204.11.69 ansible_network_os=dellos10
+
+dc2leaf1 ansible_host=10.204.11.70 ansible_network_os=dellos10
+dc2leaf2 ansible_host=10.204.11.71 ansible_network_os=dellos10
+
+dc1spine1 ansible_host=10.204.11.72 ansible_network_os=dellos10
+dc1spine2 ansible_host=10.204.11.73 ansible_network_os=dellos10
+
+dc2spine3 ansible_host=10.204.11.74 ansible_network_os=dellos10
+dc2spine4 ansible_host=10.204.11.75 ansible_network_os=dellos10
+

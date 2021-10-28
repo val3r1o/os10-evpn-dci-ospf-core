@@ -1,0 +1,646 @@
+! Version 10.5.2.3
+! Last configuration change at Oct  28 15:20:15 2021
+!
+ip vrf default
+!
+ip vrf Vrf1
+!
+no multicast snooping flood-restrict
+ip virtual-router mac-address 00:00:00:11:22:01
+system-user linuxadmin password ****
+iscsi target port 860
+iscsi target port 3260
+hostname DC1-leaf1
+username admin password **** role sysadmin priv-lvl 15
+aaa authentication login default local
+aaa authentication login console local
+!
+class-map type application class-iscsi
+!
+policy-map type application policy-iscsi
+!
+virtual-network 101
+!
+virtual-network 102
+!
+virtual-network 103
+!
+virtual-network 104
+!
+virtual-network 105
+!
+virtual-network 106
+!
+virtual-network 3939
+!
+port-group 1/1/1
+ mode Eth 25g-4x
+!
+port-group 1/1/2
+ mode Eth 25g-4x
+!
+port-group 1/1/3
+ mode Eth 25g-4x
+!
+port-group 1/1/4
+ mode Eth 25g-4x
+!
+port-group 1/1/5
+ mode Eth 25g-4x
+!
+port-group 1/1/6
+ mode Eth 25g-4x
+!
+port-group 1/1/7
+ mode Eth 25g-4x
+!
+port-group 1/1/8
+ mode Eth 25g-4x
+!
+port-group 1/1/9
+ mode Eth 25g-4x
+!
+port-group 1/1/10
+ mode Eth 25g-4x
+!
+port-group 1/1/11
+ mode Eth 25g-4x
+!
+port-group 1/1/12
+ mode Eth 25g-4x
+!
+port-group 1/1/13
+ mode Eth 100g-2x
+!
+port-group 1/1/14
+ mode Eth 100g-2x
+!
+port-group 1/1/15
+ mode Eth 100g-1x
+!
+port-group 1/1/16
+ mode Eth 100g-1x
+!
+port-group 1/1/17
+ mode Eth 100g-1x
+!
+port-group 1/1/18
+ mode Eth 100g-1x
+!
+interface vlan1
+ no shutdown
+!
+interface vlan101
+ virtual-network 101
+ description Management_Management
+ no shutdown
+ mtu 9216
+!
+interface vlan102
+ virtual-network 102
+ description Management_vSAN
+ no shutdown
+ mtu 9216
+!
+interface vlan103
+ virtual-network 103
+ description Management_vMotion
+ no shutdown
+ mtu 9216
+!
+interface vlan104
+ virtual-network 104
+ description Management_NSX_transport
+ no shutdown
+ mtu 9216
+!
+interface vlan105
+ virtual-network 105
+ description Management_NSX_Uplink1
+ no shutdown
+ mtu 9216
+!
+interface vlan106
+ virtual-network 106
+ description Management_NSX_Uplink2
+ no shutdown
+ mtu 9216
+!
+interface vlan3939
+ virtual-network 3939
+ description Management_pvtMgmt
+ no shutdown
+ mtu 9216
+ ipv6 mld snooping querier
+!
+interface vlan4000
+ no shutdown
+ ip address 100.0.0.0/31
+ ip ospf 1 area 0.0.0.0
+!
+interface port-channel10
+ no shutdown
+ no switchport
+ mtu 9216
+ ip address 192.168.5.1/31
+ ip ospf 1 area 0.0.0.0
+!
+interface port-channel20
+ no shutdown
+ no switchport
+ mtu 9216
+ ip address 192.168.7.1/31
+ ip ospf 1 area 0.0.0.0
+!
+interface port-channel101
+ no shutdown
+ switchport mode trunk
+ switchport access vlan 1
+ switchport trunk allowed vlan 101
+ vlt-port-channel 101
+!
+interface loopback1
+ description evpn_loopback
+ no shutdown
+ ip address 10.1.3.1/32
+!
+interface loopback2
+ description nve_loopback
+ no shutdown
+ ip address 10.2.3.1/32
+!
+nve
+ source-interface loopback2
+!
+interface mgmt1/1/1
+ no shutdown
+ no ip address dhcp
+ ip address 10.204.11.68/24
+ ipv6 address autoconfig
+!
+interface ethernet1/1/1
+ description "access port for vlan 3939"
+ no shutdown
+ switchport access vlan 3939
+ flowcontrol receive off
+!
+interface ethernet1/1/2
+ description "access port for vlan 101"
+ no shutdown
+ channel-group 101 mode active
+ no switchport
+ flowcontrol receive off
+!
+interface ethernet1/1/3
+ no shutdown
+ no switchport
+ flowcontrol receive off
+!
+interface ethernet1/1/4
+ no shutdown
+ no switchport
+ flowcontrol receive off
+!
+interface ethernet1/1/5
+ description "Interlink to DC1-spine2 1/1/5"
+ no shutdown
+ channel-group 20
+ no switchport
+ flowcontrol receive off
+!
+interface ethernet1/1/6
+ description "Interlink to DC1-spine2 1/1/6"
+ no shutdown
+ channel-group 20
+ no switchport
+ flowcontrol receive off
+!
+interface ethernet1/1/7
+ description "Interlink to DC1-spine1 1/1/7"
+ no shutdown
+ channel-group 10
+ no switchport
+ flowcontrol receive off
+!
+interface ethernet1/1/8
+ description "Interlink to DC1-spine1 1/1/8"
+ no shutdown
+ channel-group 10
+ no switchport
+ flowcontrol receive off
+!
+interface ethernet1/1/9
+ shutdown
+ no switchport
+ flowcontrol receive off
+ ip ospf passive
+!
+interface ethernet1/1/10
+ shutdown
+ no switchport
+ flowcontrol receive off
+ ip ospf passive
+!
+interface ethernet1/1/11
+ shutdown
+ no switchport
+ flowcontrol receive off
+ ip ospf passive
+!
+interface ethernet1/1/12
+ shutdown
+ no switchport
+ flowcontrol receive off
+ ip ospf passive
+!
+interface ethernet1/1/13
+ shutdown
+ no switchport
+ flowcontrol receive off
+ ip ospf passive
+!
+interface ethernet1/1/14
+ shutdown
+ no switchport
+ flowcontrol receive off
+ ip ospf passive
+!
+interface ethernet1/1/15
+ shutdown
+ no switchport
+ flowcontrol receive off
+ ip ospf passive
+!
+interface ethernet1/1/16
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/17
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/18
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/19
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/20
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/21
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/22
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/23
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/24
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/25
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/26
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/27
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/28
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/29
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/30
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/31
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/32
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/33
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/34
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/35
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/36
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/37
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/38
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/39
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/40
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/41
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/42
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/43
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/44
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/45
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/46
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/47
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/48
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/49
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/50
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/51
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/52
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/53
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/54
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/55
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface ethernet1/1/56
+ no shutdown
+ switchport access vlan 1
+ flowcontrol receive off
+!
+interface virtual-network101
+ description vlan:101_extended_to_switches
+ no shutdown
+ ip vrf forwarding Vrf1
+ ip address 172.16.0.1/24
+ ip virtual-router address 172.16.0.254
+!
+interface virtual-network102
+ description vlan:102_extended_to_switches
+ no shutdown
+ ip vrf forwarding Vrf1
+ ip address 172.16.1.1/24
+ ip virtual-router address 172.16.1.254
+!
+interface virtual-network103
+ description vlan:103_extended_to_switches
+ no shutdown
+ ip vrf forwarding Vrf1
+ ip address 172.16.2.1/24
+ ip virtual-router address 172.16.2.254
+!
+interface virtual-network104
+ description vlan:104_extended_to_switches
+ no shutdown
+ ip vrf forwarding Vrf1
+ ip address 172.16.4.1/24
+ ip virtual-router address 172.16.4.254
+!
+interface virtual-network105
+ description vlan:105_extended_to_switches
+ no shutdown
+ ip vrf forwarding Vrf1
+ ip address 172.16.5.1/24
+ ip virtual-router address 172.16.5.254
+!
+interface virtual-network106
+ description vlan:106_extended_to_switches
+ no shutdown
+ ip vrf forwarding Vrf1
+ ip address 172.16.6.1/24
+ ip virtual-router address 172.16.6.254
+!
+interface virtual-network3939
+ description vlan:3939_extended_to_switches
+ no shutdown
+ ip vrf forwarding Vrf1
+ ip address 172.16.3.1/24
+ ip virtual-router address 172.16.3.254
+!
+management route 0.0.0.0/0 192.168.130.1
+!
+router ospf 1
+ log-adjacency-changes
+ redistribute connected
+ router-id 10.0.3.1
+!
+router bgp 65101
+ bestpath as-path multipath-relax
+ !
+ address-family ipv4 unicast
+ !
+ neighbor 10.1.4.1
+  ebgp-multihop 4
+  remote-as 65102
+  send-community extended
+  update-source loopback1
+  no shutdown
+  !
+  address-family l2vpn evpn
+   activate
+ !
+ neighbor 10.1.4.2
+  ebgp-multihop 4
+  remote-as 65102
+  send-community extended
+  update-source loopback1
+  no shutdown
+  !
+  address-family l2vpn evpn
+   activate
+!
+vlt-domain 127
+ backup destination 192.168.130.115
+ discovery-interface ethernet1/1/3-1/1/4
+ peer-routing
+ vlt-mac 00:00:00:00:00:01
+!
+evpn
+ router-mac 00:01:02:03:04:01
+ !
+ evi 101
+  vni 101
+  rd auto
+  route-target 101:1 both
+ !
+ evi 102
+  vni 102
+  rd auto
+  route-target 102:1 both
+ !
+ evi 103
+  vni 103
+  rd auto
+  route-target 103:1 both
+ !
+ evi 104
+  vni 104
+  rd auto
+  route-target 104:1 both
+ !
+ evi 105
+  vni 105
+  rd auto
+  route-target 105:1 both
+ !
+ evi 106
+  vni 106
+  rd auto
+  route-target 106:1 both
+ !
+ evi 3939
+  vni 3939
+  rd auto
+  route-target 3939:1 both
+ !
+ vrf Vrf1
+  vni 3000
+  route-target 30000:30000 both
+  advertise ipv4 connected
+!
+virtual-network 101
+ description vlan:101_extended_to_switches
+ !
+ vxlan-vni 101
+!
+virtual-network 102
+ description vlan:102_extended_to_switches
+ !
+ vxlan-vni 102
+!
+virtual-network 103
+ description vlan:103_extended_to_switches
+ !
+ vxlan-vni 103
+!
+virtual-network 104
+ description vlan:104_extended_to_switches
+ !
+ vxlan-vni 104
+!
+virtual-network 105
+ description vlan:105_extended_to_switches
+ !
+ vxlan-vni 105
+!
+virtual-network 106
+ description vlan:106_extended_to_switches
+ !
+ vxlan-vni 106
+!
+virtual-network 3939
+ description vlan:3939_extended_to_switches
+ !
+ vxlan-vni 3939
+!
+snmp-server contact "Contact Support"
+!
+telemetry
